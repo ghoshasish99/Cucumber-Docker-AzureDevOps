@@ -13,7 +13,7 @@ services:
       - HUB_HOST=selenium-hub
       - HUB_PORT=4444
   automation:
-    image: aztest:latest
+    image: ghoshasish99/maven-cucumber:${TAG}
     container_name: automation-test
     depends_on:
       - chrome 
