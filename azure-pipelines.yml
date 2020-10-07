@@ -18,7 +18,7 @@ stages:
     steps:
        - task: Docker@2
          inputs:
-           containerRegistry: 'Dockerhub'
+           containerRegistry: 'Docker'
            repository: 'ghoshasish99/maven-cucumber'
            command: 'buildAndPush'
            Dockerfile: '**/Dockerfile'
