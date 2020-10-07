@@ -18,8 +18,8 @@ stages:
     steps:
        - task: Docker@2
          inputs:
-           containerRegistry: 'Docker'
-           repository: 'ghoshasish99/maven-cucumber'
+           containerRegistry: 'acr'
+           repository: 'postbuildqa/maven-cucumber'
            command: 'buildAndPush'
            Dockerfile: '**/Dockerfile'
            
