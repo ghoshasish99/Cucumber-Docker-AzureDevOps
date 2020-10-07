@@ -11,7 +11,7 @@
     <properties>
         <!--LOCAL_CHROME, LOCAL_FIREFOX, AWS_CHROME, AWS_FIREFOX, AWS_DEVICEFARM_CHROME, AWS_DEVICEFARM_FIREFOX-->
 <!--        <executionPlatformDefault>AWS_CHROME</executionPlatformDefault>-->
-        <executionPlatformDefault>AWS_CHROME</executionPlatformDefault>
+        <executionPlatformDefault>GRID_CHROME</executionPlatformDefault>
         <apiHostDefault>awswrkshpalbmock-1310692469.us-west-2.elb.amazonaws.com</apiHostDefault>
         <applicationHostDefault>awswrkshpalb-1570520390.us-west-2.elb.amazonaws.com</applicationHostDefault>
         <dashboardHostDefault>localhost</dashboardHostDefault>

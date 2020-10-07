@@ -83,7 +83,8 @@ public class WebDriverFactory {
                     capabilities.setBrowserName("chrome");
                     capabilities.setPlatform(Platform.ANY);                   
                     try {
-                        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+						System.out.println("Hub URL :"+ System.getProperty("hub"));
+                        driver = new RemoteWebDriver(new URL(System.getProperty("hub")), capabilities);
                     } catch (MalformedURLException e) {
                         LOG.error(e.getMessage());
                     }
