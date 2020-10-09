@@ -17,7 +17,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
-
+import java.time.LocalDateTime ;
 import org.apache.commons.codec.binary.Base64;
 import org.json.simple.JSONObject;
 import org.junit.AfterClass;
@@ -41,6 +41,7 @@ public class TestPlan {
 	protected static Map<String,String> Testresults=new HashMap<String,String>();
 
 	public static void updateTestResults(String planName, Map<String, String> details) {
+		LocalDateTime  timenow = LocalDateTime.now();
 		String testplanID = getTestPlanID(planName);
 		for (Entry<String, String> detail : details.entrySet()) {
     	   String suiteID = getSuiteID(testplanID, detail.getKey());
@@ -49,7 +50,7 @@ public class TestPlan {
     	   TestPoints.add(testpointID); 
     	   TestresultStatus.add(detail.getValue().split(":")[1]);
     	}
-		String runId = createTestRun("TestRun", testplanID, TestPoints);
+		String runId = createTestRun(planName+" "+timenow, testplanID, TestPoints);
 		String resultIDbody = getTestResultIDBody(runId);
 		String resultid = "";
 		for (int i=0;i<TestPoints.size();i++)
@@ -223,7 +224,6 @@ public class TestPlan {
 			 		"   "+testpoints+"\r\n" + 
 			 		"  ]\r\n" + 
 			 		"}";
-			System.out.println("Run Payload :+\n"+payload);
 			String response = APIRequest(URL, "POST", payload);
 			String jsonpath = "$.id";
 			runID = JsonPath.read(response, jsonpath).toString();
@@ -251,7 +251,6 @@ public class TestPlan {
 				 		"  }"+",";
 			 }
 			 String payload ="["+testpoints.substring(0,testpoints.lastIndexOf(","))+"]";
-			 System.out.println("Payload : \n" + payload);
 			 APIRequest(URL, "PATCH", payload);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());

@@ -250,13 +250,13 @@ public class APIReusuableLibrary {
     private void reportItPASS(String uri, Object expectedValue, Object actualValue, String status) {
         expectedValue = ((Object) expectedValue).toString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         actualValue = ((Object) actualValue).toString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        ExtentCucumberAdapter.addTestStepLog(
+       /* ExtentCucumberAdapter.addTestStepLog(
                 "<style>table {border-collapse !important  }td {border: 1px solid black !important;  white-space: normal; !important;}</style>"
                         + "<table><tr><td><b>ENDPOINT</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>"
                         + uri + "</td></tr>" + "<tr><td><b>EXPECTED RESULT</b></td><td>" + expectedValue + "</td></tr>"
                         + "<tr><td><b>ACTUAL RESULT</b>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" + actualValue + "</td></tr>"
                         + "<tr><td><b>STATUS</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font color=green>"
-                        + status + "</font></td></tr></table>");
+                        + status + "</font></td></tr></table>");*/
     }
 
 
@@ -272,13 +272,13 @@ public class APIReusuableLibrary {
     private void reportItFAIL(String uri, Object expectedValue, Object actualValue, String status) {
         expectedValue = ((Object) expectedValue).toString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         actualValue = ((Object) actualValue).toString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        ExtentCucumberAdapter.addTestStepLog(
+        /*  ExtentCucumberAdapter.addTestStepLog(
                 "<style>table {border-collapse !important  }td {border: 1px solid black !important;  white-space: normal; !important;}</style>"
                         + "<table><tr><td><b>ENDPOINT</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>"
                         + uri + "</td></tr>" + "<tr><td><b>EXPECTED RESULT</b></td><td>" + expectedValue + "</td></tr>"
                         + "<tr><td><b>ACTUAL RESULT</b>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" + actualValue + "</td></tr>"
                         + "<tr><td><b>STATUS</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font color=red>"
-                        + status + "</font></td></tr></table>");
+                        + status + "</font></td></tr></table>"); */
     }
 
     /**

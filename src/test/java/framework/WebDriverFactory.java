@@ -11,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 // import software.amazon.awssdk.regions.Region;
@@ -80,11 +81,12 @@ public class WebDriverFactory {
                     
                     DesiredCapabilities capabilities = new DesiredCapabilities();
                     capabilities.setJavascriptEnabled(true);
-                    capabilities.setBrowserName("chrome");
+                    capabilities.setBrowserName(BrowserType.CHROME);
                     capabilities.setPlatform(Platform.ANY);                   
                     try {
-						System.out.println("Hub URL :"+ System.getProperty("hub"));
-                        driver = new RemoteWebDriver(new URL(System.getProperty("hub")), capabilities);
+                       // driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+                    	driver = new RemoteWebDriver(new URL(System.getProperty("hub")), capabilities);
+                       // System.out.println("Hub URL :"+ System.getProperty("hub"));
                     } catch (MalformedURLException e) {
                         LOG.error(e.getMessage());
                     }

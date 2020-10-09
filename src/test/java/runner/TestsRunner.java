@@ -36,7 +36,8 @@ import runner.TestPlan;
         tags = "@UITest and @Smoke",
         glue = {"stepdefinitions"},
         //plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
-        plugin = {"junit:target/junitreport.xml"}
+         plugin = {"junit:target/junitreport.xml","json:target/jsonreport.json"}
+        
 )
 public class TestsRunner {
 
@@ -47,7 +48,7 @@ public class TestsRunner {
     protected static final Logger LOG = LoggerFactory.getLogger(TestsRunner.class);
     protected static Map<String, String> UITest = new HashMap<String, String>();
     protected static Map<String, String> APITest = new HashMap<String, String>();
-    protected static Map<String, String> RWDUITest = new HashMap<String, String>();
+    protected static Map<String, String> UIRWDTest = new HashMap<String, String>();
     
     @BeforeClass
     public static void beforeClass() {
@@ -63,17 +64,16 @@ public class TestsRunner {
              else if(set.getKey().contains("APITest"))
             	 APITest.put(set.getKey().split(":")[1], set.getValue()+":"+CukeHooks.status.get(set.getValue()));
              else
-            	 RWDUITest.put(set.getKey().split(":")[1], set.getValue()+":"+CukeHooks.status.get(set.getValue()));
+            	 UIRWDTest.put(set.getKey().split(":")[1], set.getValue()+":"+CukeHooks.status.get(set.getValue()));
 		}
         if(!UITest.isEmpty()) {
-        	System.out.println(UITest);
         	TestPlan.updateTestResults("UITest", UITest);
         }
         if(!APITest.isEmpty()) {
         	TestPlan.updateTestResults("APITest", APITest);
         }
-        if(!RWDUITest.isEmpty()) {
-        	TestPlan.updateTestResults("RWDUITest", RWDUITest);
+        if(!UIRWDTest.isEmpty()) {
+        	TestPlan.updateTestResults("UIRWDTest", UIRWDTest);
         }
     }
     

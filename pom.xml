@@ -136,6 +136,7 @@
                     </includes>
                     <systemPropertyVariables>
                         <executionPlatform>${executionPlatformDefault}</executionPlatform>
+                        <hub>${GRIDURL}</hub>
                         <apiHost>${apiHostDefault}</apiHost>
                         <applicationHost>${applicationHostDefault}</applicationHost>
                         <dashboardHost>${dashboardHostDefault}</dashboardHost>
