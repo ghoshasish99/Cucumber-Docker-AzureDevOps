@@ -1,35 +1,39 @@
-jobs:
-- job: DEPLOYMENT
-  pool:
-   vmImage: 'ubuntu-latest'
-  variables:
-    backendPublicIP: $(publicIP)
-    privateIP: 10.0.0.6
-    region: South India
-    bucket: Temp
-  steps:
-  - script: |
-      curl -s --connect-timeout 8 -d "{\"privateIP\":\"$(privateIP)\",\"publicIP\":\"$(backendPublicIP)\",\"region\":\"$(region)\",\"bucket\":\"$(bucket)\"}"   -H 'Content-Type:application/json' http://$(backendPublicIP):3337/api/v1/aws_dashboard_report/secrets/update || true  
-      az login --service-principal -u $(userkey) -p $(secretkey) --tenant $(tenantkey)
-      az vm run-command invoke -g WorkshopCLIResources -n WorkshopVMCLI --command-id RunShellScript --scripts "docker login azureworkshopregistry.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password $(azureACRToken)"
-      az vm run-command invoke -g WorkshopCLIResources -n WorkshopVMCLI --command-id RunShellScript --scripts "docker run --name mythicalmysfitsfrontend -p 3000:3000 -p 8180:8180 --rm -i -t -d azureworkshopregistry.azurecr.io/mythicalmysfits:latest"
-      az vm run-command invoke -g WorkshopCLIResources -n WorkshopVMCLI --command-id RunShellScript --scripts "docker exec -d -e REACT_APP_API=$(backendPublicIP) mythicalmysfitsfrontend npm start"
-    displayName: 'Deploying To Virtual Machine'
-  
-- job: SMOKE_TEST
-  pool:
-   vmImage: 'ubuntu-latest'
-  variables:
-    backendPublicIP: $(publicIP)
-    privateIP: 10.0.0.6
-    region: South India
-    bucket: Temp
-  steps:
-  - script: |
-      curl -s --connect-timeout 8 -d "{\"privateIP\":\"$(privateIP)\",\"publicIP\":\"$(backendPublicIP)\",\"region\":\"$(region)\",\"bucket\":\"$(bucket)\"}"   -H 'Content-Type:application/json' http://$(backendPublicIP):3337/api/v1/aws_dashboard_report/secrets/update || true  
-      export backendPrivateIP=$(backendPublicIP)
-      export publicIP=$(backendPublicIP)
-      mvn clean test -Dcucumber.options="--tags @Smoke" -DExecutionPlatform="AWS_CHROME"
-    displayName: 'Smoke Test'
-  dependsOn: DEPLOYMENT
-  condition: succeeded()
+# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build and Push image
+  jobs:  
+  - job: Build
+    displayName: Build and Push
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+       - task: Docker@2
+         inputs:
+           containerRegistry: 'Dockerhub'
+           repository: 'postbuildqa/maven-cucumber'
+           command: 'buildAndPush'
+           Dockerfile: '**/Dockerfile'
+           
+       - task: CopyFiles@2
+         inputs:
+           Contents: 'docker-compose.yml'
+           TargetFolder: '$(Build.ArtifactStagingDirectory)'
+           
+       - task: PublishBuildArtifacts@1
+         inputs:
+           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+           ArtifactName: 'drop'
+           publishLocation: 'Container'

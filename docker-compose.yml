@@ -18,6 +18,8 @@ services:
     depends_on:
       - chrome 
     environment:
+      - TAGS=${TAG}
+      - PAT=${PAT}
       - GRIDURL=http://selenium-hub:4444/wd/hub
     volumes:
       - ./Results/:/functional-test/target/
