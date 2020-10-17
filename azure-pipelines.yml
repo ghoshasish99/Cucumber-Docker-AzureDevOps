@@ -1,15 +1,10 @@
-# Docker
-# Build a Docker image 
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+# - This is the build pipeline to build and push the automated test docker image to ACR 
 
 trigger:
 - master
 
 resources:
 - repo: self
-
-variables:
-  tag: '$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -20,12 +15,19 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-       - task: Docker@2
+       - task: CmdLine@2
          inputs:
-           containerRegistry: 'acr'
-           repository: 'postbuildqa/maven-cucumber'
-           command: 'buildAndPush'
-           Dockerfile: '**/Dockerfile'
+            script: |
+              docker build -t testdigitalshopify:latest .
+              docker login $(acrRegistry) --username 00000000-0000-0000-0000-000000000000 --password $(azureACRToken)
+              docker tag testdigitalshopify $(acrRegistry)/testdigitalshopify
+              docker push $(acrRegistry)/testdigitalshopify  
+      # - task: Docker@2
+      #   inputs:
+      #     containerRegistry: 'acr'
+      #     repository: 'postbuildqa/maven-cucumber'
+      #     command: 'buildAndPush'
+      #     Dockerfile: '**/Dockerfile'
            
        - task: CopyFiles@2
          inputs:
