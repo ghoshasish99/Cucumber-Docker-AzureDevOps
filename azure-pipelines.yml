@@ -16,10 +16,11 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
        - task: CmdLine@2
+         displayName: 'Build and Push Image'
          inputs:
             script: |
               docker build -t testdigitalshopify:latest .
-              docker login $(acrRegistry) --username 00000000-0000-0000-0000-000000000000 --password $(azureACRToken)
+              docker login $(acrRegistry) --username $(acrusername) --password $(azureACRToken)
               docker tag testdigitalshopify $(acrRegistry)/testdigitalshopify
               docker push $(acrRegistry)/testdigitalshopify  
       # - task: Docker@2
