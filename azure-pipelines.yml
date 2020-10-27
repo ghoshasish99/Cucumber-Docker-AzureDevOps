@@ -20,9 +20,10 @@ stages:
          inputs:
             script: |
               docker build -t testdigitalshopify:latest .
-              docker login $(acrRegistry) --username $(acrusername) --password $(azureACRToken)
-              docker tag testdigitalshopify $(acrRegistry)/testdigitalshopify
-              docker push $(acrRegistry)/testdigitalshopify  
+              docker save --output testdigitalshopify-latest.tar testdigitalshopify:latest
+             # docker login $(acrRegistry) --username $(acrusername) --password $(azureACRToken)
+             # docker tag testdigitalshopify $(acrRegistry)/testdigitalshopify
+             # docker push $(acrRegistry)/testdigitalshopify  
       # - task: Docker@2
       #   inputs:
       #     containerRegistry: 'acr'
@@ -32,7 +33,7 @@ stages:
            
        - task: CopyFiles@2
          inputs:
-           Contents: 'docker-compose.yml'
+           Contents: 'testdigitalshopify-latest.tar'
            TargetFolder: '$(Build.ArtifactStagingDirectory)'
            
        - task: PublishBuildArtifacts@1
@@ -40,3 +41,4 @@ stages:
            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
            ArtifactName: 'drop'
            publishLocation: 'Container'
+      
